@@ -1,0 +1,36 @@
+########## LISTA DE ABREVIACOES ##########
+- ADD = Adicionar !Adiciona um valor qualquer
+- ATU = Atualiza
+- ATR = Atribuí
+- CAL = Calcula
+- CON = Conveyor = Esteira
+- DEC = Decrementa
+- INC = Incrementa
+- QTD = Quantidade
+- PAR = Parâmetro
+- PCA = Peca
+- PER = Permissivel
+- POS = Posição
+- PRES = Presença !Usado para peças, ferramentas, ou qualquer outro item
+- PROD = Produto
+- PTP = Ponto
+- RES = Reset / Limpa / Retorna ao valor original
+- STA = Station = Estação
+- STU = Status
+- TON = Turn ON = Aciona determinado atuador, ou componente
+- TOF = Turn OFF = Desaciona determinado atuador, ou componente
+- VER = Verificação
+
+#### PREFIXOS
+- aXXX = Array/Matriz/Vetor
+- bXXX = Booleana
+- cXXX = Classe
+- fXXX = Função
+- iXXX = Interrupt/Trap
+- lXXX = Load / Carga / Peso
+- nXXX = Variavel numerica (inteira ou racional)
+- rXXX = Rotina
+- sXXX = String
+- tXXX = Thread / Task
+- toXXX = Variável tipo ferramenta
+- wXXX = Variável tipo work Object / Plano de trabalho / Frame
