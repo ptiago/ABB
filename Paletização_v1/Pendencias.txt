@@ -1,0 +1,9 @@
+- Lista de sinais
+- Identificar processo, estação, peça, ferramenta
+- Montar classes
+- Pontos de decisão (verificação)
+- Módulo de rotinas auxiliares
+- Criar váriaveis que serão usadas nos pontos de decisão
+- Recovery Home
+- Declarar sinais de alarme
+- FAZER TODA A NOMENCLATURA EM INGLÊS
