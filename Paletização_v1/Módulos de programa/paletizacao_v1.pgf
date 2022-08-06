@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<Program>
+	<Module>Global_Variable.mod</Module>
+	<Module>Check_Points.mod</Module>
+	<Module>IHM.mod</Module>
+	<Module>READ_ME.mod</Module>
+	<Module>Pallet_Layout.mod</Module>
+	<Module>Process_Conditions.mod</Module>
+	<Module>Process.mod</Module>
+	<Module>Main_Module.mod</Module>
+	<Module>Drive.mod</Module>
+	<Module>Permissible.mod</Module>
+	<Module>Auxiliar.mod</Module>
+</Program>
