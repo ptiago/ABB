@@ -19,4 +19,8 @@ MODULE IHM
         <SMT>
     ENDPROC
     
+    !*** Pergunta quais produtos serao produzidos
+    PROC rMsg_Setup_Part()
+        <SMT>
+    ENDPROC
 ENDMODULE
