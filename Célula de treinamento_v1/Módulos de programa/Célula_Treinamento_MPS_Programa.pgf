@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<Program>
+	<Module>IHM.mod</Module>
+	<Module>Pontos_De_Verificacao.mod</Module>
+	<Module>Auxiliar.mod</Module>
+	<Module>Macros.mod</Module>
+	<Module>Global_Variable.mod</Module>
+	<Module>Permissible_Conditions.mod</Module>
+	<Module>Process.mod</Module>
+	<Module>Drives.mod</Module>
+	<Module>Condicoes_De_Verificacao.mod</Module>
+	<Module>READ_ME.mod</Module>
+	<Module>Main_Module.mod</Module>
+</Program>
