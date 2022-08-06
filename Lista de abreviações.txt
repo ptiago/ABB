@@ -2,8 +2,11 @@
 - ADD = Adicionar !Adiciona um valor qualquer
 - ATU = Atualiza
 - ATR = Atribuí
+- AVR = Average = Média
 - CAL = Calcula
+- CHK = Check = Verificação
 - CON = Conveyor = Esteira
+- CUR = Current = Atual
 - DEC = Decrementa
 - INC = Incrementa
 - QTD = Quantidade
@@ -12,6 +15,7 @@
 - PER = Permissivel
 - POS = Posição
 - PRES = Presença !Usado para peças, ferramentas, ou qualquer outro item
+- PROC = Process = Processo
 - PROD = Produto
 - PTP = Ponto
 - RES = Reset / Limpa / Retorna ao valor original
@@ -19,7 +23,6 @@
 - STU = Status
 - TON = Turn ON = Aciona determinado atuador, ou componente
 - TOF = Turn OFF = Desaciona determinado atuador, ou componente
-- VER = Verificação
 
 #### PREFIXOS
 - aXXX = Array/Matriz/Vetor
