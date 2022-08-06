@@ -10,3 +10,5 @@ X Criar os módulos e rotinas
 - Funções de permissiveis
 - Funções de condições de produção para cada processo
 - FAZER TODA A NOMENCLATURA EM INGLÊS
+
+- Trocar o nome de check points, para decision points
