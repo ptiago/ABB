@@ -1,7 +1,6 @@
 ########## LISTA DE ABREVIACOES ##########
 - ADD = Adicionar !Adiciona um valor qualquer
 - ATU = Atualiza
-- ATR = Atribuí
 - AVR = Average = Média
 - CAL = Calcula
 - CHK = Check = Verificação
@@ -19,6 +18,7 @@
 - PROD = Produto
 - PTP = Ponto
 - RES = Reset / Limpa / Retorna ao valor original
+- SET = Setup = Atribuí/Configura
 - STA = Station = Estação
 - STU = Status
 - TON = Turn ON = Aciona determinado atuador, ou componente
@@ -28,12 +28,13 @@
 - aXXX = Array/Matriz/Vetor
 - bXXX = Booleana
 - cXXX = Classe
+- clXXX = Clock = Temporizador
 - fXXX = Função
 - iXXX = Interrupt/Trap
 - lXXX = Load / Carga / Peso
 - nXXX = Variavel numerica (inteira ou racional)
 - rXXX = Rotina
 - sXXX = String
-- tXXX = Thread / Task
-- toXXX = Variável tipo ferramenta
+- thXXX = Thread / Task
+- tXXX = Variável tipo ferramenta
 - wXXX = Variável tipo work Object / Plano de trabalho / Frame
