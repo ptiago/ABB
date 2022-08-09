@@ -1,6 +1,9 @@
 X Criar os módulos e rotinas
 - Colocar cabeçalhos
+- Atribuir valores aos produtos
 - Montar classes
+- Criar método de dry run
+- Telas de pergunta para quando rodar em manual
 - Pontos de decisão (verificação)
 - Módulo de rotinas auxiliares
 - Criar váriaveis que serão usadas nos pontos de decisão
@@ -9,6 +12,12 @@ X Criar os módulos e rotinas
 - Criar maneira do robo continuar de onde parou
 - Funções de permissiveis
 - Funções de condições de produção para cada processo
+- Usar MovePnP
 - FAZER TODA A NOMENCLATURA EM INGLÊS
 
 - Trocar o nome de check points, para decision points
+
+- Comentar o porque uso numeros no nome do layout
+- O porque eu faço os layouts em um módulo, e não como valores de uma classe
+- A condição da esteira de entrada, as peculiaridades dela
+- O ponto de deposito, e o ponto de pega
