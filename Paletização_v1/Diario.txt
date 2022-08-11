@@ -6,3 +6,14 @@ Rev_10/8/22_1
 - Retirado os pontos pHome das rotinas 'rPick_Con' e 'rDrop_Pal'. A inteção é aumentar a performance de movimentação.
 - Excluída a rotina 'rSet_Pick_Con'
 - Alterado nome da rotina 'rSet_Pounce_Drop' para 'rSet_Pounce_Drop_Cur'
+
+Rev_11/8/22_1
+- Edição da rotina rChk_Sensor
+- Criação da rotina rMsg_Sensor_NOK_1
+- Criação da rotina rMsg_Sensor_NOK_2
+- Criada a rotina rAlarm_2
+
+Rev_11/8/22_2
+- Remormulação da rotina rChk_Sensor, pois o método de criar uma classe com as DI's não deu certo, não há como "declarar" DI's em uma class
+- Concluido o módulo 'Permissible'
+- Módulo 'Process_Conditions' editado
