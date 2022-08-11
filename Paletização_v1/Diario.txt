@@ -1,0 +1,8 @@
+Rev_10/8/22_1
+- Aproximação do deposito em diagonal para evitar que a caixa na garra esbarre no resto do palete;
+- Abortado a metodoliga para atribuição dos pontos de pega. Os pontos de pega serão marcados no fisico, produto por produto, para pega com uma e duas caixas;
+- Atribuição do ponto de pPounce no depósito no palete para o mesmo não colidir com a célula, não colidir com o palete, e otimizar a movimentação;
+- Aplicado offsets na rotina rDrop_Pal;
+- Retirado os pontos pHome das rotinas 'rPick_Con' e 'rDrop_Pal'. A inteção é aumentar a performance de movimentação.
+- Excluída a rotina 'rSet_Pick_Con'
+- Alterado nome da rotina 'rSet_Pounce_Drop' para 'rSet_Pounce_Drop_Cur'
