@@ -17,3 +17,15 @@ Rev_11/8/22_2
 - Remormulação da rotina rChk_Sensor, pois o método de criar uma classe com as DI's não deu certo, não há como "declarar" DI's em uma class
 - Concluido o módulo 'Permissible'
 - Módulo 'Process_Conditions' editado
+
+Rev_12/8/22_1
+- Editado a módulo 'Process_Conditions';
+- Alterado o nome de todas as rotina do módulo 'Pallet_Layout';
+- Inserido cabeçalho em todos os módulos;
+- DO's 'DO_005_REQ_BOX_BIT_1' e 'DO_006_REQ_BOX_BIT_2' foram substituidas pelas DO's 'DO_005_PICK_OK' e 'DO_006_DROP_OK' respectivamente, pois quem vai informar quais
+caixas estão na esteira será o próprio robô, pois elas podem vir de maneira aleatória
+- Alterado o nome do módulo 'Check_Points' para 'Decision_Points', pois faz mais sentido com o propósito da rotina;
+- Variaveis 'nCurrent_Layout', 'cPallet_Drop' e 'cPart_Cur' foram simplificadas para uma matriz unidimensional;
+- Excluída a rotina 'rSet_Layout_Cur', pois seu calculo ser transferido para a rotina;
+- Criado a GO 'REQ_BOX_PAL_2' e a GO 'REQ_BOX' foi alterada para 'REQ_BOX_PAL_1', pois o robô terá que informar para o PLC quantas caixas são necessárias para a próxima possição
+em cada um dos paletes
