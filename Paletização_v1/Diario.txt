@@ -29,3 +29,13 @@ caixas estão na esteira será o próprio robô, pois elas podem vir de maneira 
 - Excluída a rotina 'rSet_Layout_Cur', pois seu calculo ser transferido para a rotina;
 - Criado a GO 'REQ_BOX_PAL_2' e a GO 'REQ_BOX' foi alterada para 'REQ_BOX_PAL_1', pois o robô terá que informar para o PLC quantas caixas são necessárias para a próxima possição
 em cada um dos paletes
+
+Rev_15/8/22_1
+- Adicionados DI's 19 e 20,'PAL_RIGHT_RESET' e 'PAL_LEFT_RESET' respectivamente;
+- Criada a rotina 'rUpt_Pal_Pos' que contará as caixa depositada e incrementara camada e/ou palete completo;
+- Criada a rotina 'rReset_Pal';
+- Criada a Task 'T_PROCESS';
+- Módulo de programa 'Global_Variable' foi transferida para um módulo de sistema com o mesmo nomeem ambas as tasks;
+- Rotina Main editada para facilitar a chamada de programas;
+- Módulo 'Decision_Points' foram editados afim de indicar qual é o ponto de decisão em que o programa está, e qual será o próximo;
+- Adicionado na classe cPar_Part o argumento 'Box_In_Layer' para saber qual é o máximo de caixas que vão em uma camada
