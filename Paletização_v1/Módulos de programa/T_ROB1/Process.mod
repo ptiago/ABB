@@ -107,7 +107,20 @@ MODULE Process
     !*** Verifica qual produto esta na esteira
     PROC rChk_Part_In_Con()
         
-        nCur_Pallet := GI_001_BOX_PROD_IN;
+        !PLC informa de qual produto e caixa que esta na esteira
+        nReg_1 := GI_001_BOX_PROD_IN;
+        
+        !Verifica se o produto que esta na esteira condiz com o escolhido pelo usuario
+        IF ((cPallet_Status{1}.Part_In_Pallet <> nReg_1) AND (cPallet_Status{2}.Part_In_Pallet <> nReg_1)) rAlarm 2;
+        
+        !Verifica em qual palete esta sendo feito este produto
+        IF (cPallet_Status{1}.Part_In_Pallet = nReg_1) THEN
+            nCur_Pallet := 1;
+            
+        ELSEIF (cPallet_Status{2}.Part_In_Pallet = nReg_1) THEN
+            nCur_Pallet := 2;
+            
+        ENDIF   
         
     ENDPROC
     
@@ -135,16 +148,20 @@ MODULE Process
         nReg_1 := cPallet_Status{nCur_Pallet}.Pos_Cur;
         nReg_1 := cPallet_Drop{nReg_1}.Rot;
         
-        TEST nReg_1
-        CASE 0:
-            pDrop_Cur := cPart_Cur.pDrop_Pal_Hori;
         
-        CASE 90:
-            pDrop_Cur := cPart_Cur.pDrop_Pal_Vert;
+        IF ((nReg_1 = 0) AND (nCur_Pallet = 1)) THEN
+            pDrop_Cur := cPart_Cur.pDrop_Hori_PalRight;
+        
+        ELSEIF ((nReg_1 = 90) AND (nCur_Pallet = 1)) THEN
+            pDrop_Cur := cPart_Cur.pDrop_Vert_PalRight;
             
-        DEFAULT:
+        ELSEIF ((nReg_1 = 0) AND (nCur_Pallet = 2)) THEN
+            pDrop_Cur := cPart_Cur.pDrop_Hori_PalLeft;
         
-        ENDTEST
+        ELSEIF ((nReg_1 = 90) AND (nCur_Pallet = 2)) THEN
+            pDrop_Cur := cPart_Cur.pDrop_Hori_PalLeft;
+           
+        ENDIF
         
     ENDPROC
     
@@ -198,7 +215,7 @@ MODULE Process
         
         rTON_Vacuum_Gripper;
         
-        rChk_Sensor 9,1,10,1,0,0,0,0,0,0;
+        IF (bDry_Run =FALSE) rChk_Sensor 9,1,10,1,0,0,0,0,0,0;
         
         !Saida da esteira
         rSet_Segment 22;
@@ -258,7 +275,7 @@ MODULE Process
         
         rTOF_Vacuum_Gripper;
         
-        rChk_Sensor 9,0,10,0,0,0,0,0,0,0;
+        IF (bDry_Run =FALSE) rChk_Sensor 9,0,10,0,0,0,0,0,0,0;
         
         rUpt_Pal_Pos;
         
@@ -372,7 +389,10 @@ MODULE Process
     !*** Atualiza contagem do palete
     PROC rUpt_Pal_Pos()
         
+        IF ((bSensor_NOK = TRUE) AND (bDry_Run = FALSE)) rAlarm 1;
+        
         Incr cPallet_Status{nCur_Pallet}.Pos_Cur;
+        Incr cProduction_Part{cPallet_Status{nCur_Pallet}.Part_In_Pallet}.Box_Dropped_Total;
         
         !Verifica se atingiu o maximo de caixas em uma camada
         IF (cPallet_Status{nCur_Pallet}.Pos_Cur < cPart_Cur.Box_In_Layer) GOTO LABEL_99;
@@ -385,6 +405,7 @@ MODULE Process
         
         cPallet_Status{nCur_Pallet}.Layer_Cur := 1;
         cPallet_Status{nCur_Pallet}.Pallet_Complete := TRUE;
+        Incr cProduction_Part{cPallet_Status{nCur_Pallet}.Part_In_Pallet}.Pallet_Completed;
         
         LABEL_99:
     ENDPROC
@@ -398,7 +419,174 @@ MODULE Process
     
     !*** Retorna para home de onde estiver
     PROC rRecovery_Home()
-        <SMT>
+        
+        !Verifica atraves do segmento aonde o robo esta posicionado
+        TEST cSegment_Cur.Number
+        CASE 3:
+            GOTO LABEL_3;
+            
+        CASE 21:
+            GOTO LABEL_2;
+            
+        CASE 22:
+            GOTO LABEL_2;
+            
+        CASE 26:
+            GOTO LABEL_6;
+            
+        CASE 27:
+            GOTO LABEL_6;
+        
+        DEFAULT:
+            rMessage 1;
+        
+        ENDTEST
+        
+        LABEL_1:
+        
+        !Pega esteira
+            MoveJ Offs(pPick_Cur,0,0,0), v200, fine, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+       
+        LABEL_2:
+        
+        !Saida da esteira
+            MoveJ Offs(pPick_Cur, 0, 0,  50),  v500,  z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(pPick_Cur, 0, 0, 100), v1000,  z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(pPick_Cur, 0, 0, 200), v2000, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+        
+        LABEL_3:
+        
+        !Pounce esteira
+            MoveJ Offs(cStation_Cur.pPounce, 0, 0, 0), vmax, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+        
+        LABEL_4:
+             
+        !Home da esteira
+            MoveJ cStation_Cur.pHome, v1500, fine, tool0 \WObj:= wobj0;
+            
+        GOTO LABEL_99;
+        
+        LABEL_5:
+        
+        !Deposito no palete
+            MoveJ Offs(pDrop_Cur,
+                        0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
+                        0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
+                        0 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
+                       ),
+                       v200, fine, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+        
+        LABEL_6:
+                       
+        !Saida do palete
+            MoveJ Offs(pDrop_Cur,
+                        50 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
+                        50 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
+                       200 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
+                       ),
+                       v1500, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       
+            MoveJ Offs(pDrop_Cur,
+                        20 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
+                        20 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
+                       100 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
+                       ),
+                       v1000, z5, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       
+            MoveJ Offs(pDrop_Cur,
+                        5 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
+                        5 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
+                       50 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
+                       ),
+                       v500, z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;           
+        
+        LABEL_7:
+        
+        !Pounce palete
+            MoveJ cStation_Cur.pPounce, v2000, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+        
+        LABEL_8:
+        
+        !Home do palete
+            MoveJ cStation_Cur.pHome, v1500, fine, tool0 \WObj:= wobj0;
+        
+        LABEL_99:
+        
+        !Home do robô
+            MoveJ pHome, v1500, fine, tool0 \WObj:= wobj0;
+            
+        bAt_Home := TRUE;
+        
+    ENDPROC
+    
+    !*** Parametriza o metodo de como irao chegar na esteira os produtos simulados
+    PROC rDryRun_Par()
+        
+        LABEL_1:
+        
+        rMsg_DryRun_Part;
+        
+        TEST nDryRun_Seting_1
+        CASE 1:
+            nCur_Pallet := 1;
+        
+        CASE 2:
+            nCur_Pallet := 2;
+         
+        CASE 3:
+            nCur_Pallet := 1;
+            IF cPallet_Status{1}.Pallet_Complete nCur_Pallet := 2;
+            IF cPallet_Status{2}.Pallet_Complete STOP;
+        
+        CASE 4:
+            Incr nCur_Pallet;
+            IF (nCur_Pallet > 2) nCur_Pallet := 1;
+            
+        CASE 5:
+            TPErase;
+            TPReadFK nReg_1,"Deseja produzir em Dry Run?","SIM",stEmpty,stEmpty,stEmpty,"NAO";
+            
+            IF (nReg_1 = 1) THEN
+                GOTO LABEL_1;
+            ELSE
+                TPErase;
+                TPWrite "O programa sera reiniciado";
+                ExitCycle;
+            ENDIF
+            
+        DEFAULT:
+        ENDTEST
+        
+    ENDPROC
+    
+    !*** Reseta os marcadores de permissiveis, e condicoes de processo
+    PROC rReset_Per_Proc_Cond()
+
+        bPer_1131:=FALSE;
+        bPer_1231:=FALSE;
+        bPer_1331:=FALSE;
+        bPer_1431:=FALSE;
+        bPer_2111:=FALSE;
+        bPer_2121:=FALSE;
+        bPer_2211:=FALSE;
+        bPer_2221:=FALSE;
+        bPer_2311:=FALSE;
+        bPer_2321:=FALSE;
+        bPer_2411:=FALSE;
+        bPer_2421:=FALSE;
+        bProc_Cond_1131:=FALSE;
+        bProc_Cond_1231:=FALSE;
+        bProc_Cond_1331:=FALSE;
+        bProc_Cond_1431:=FALSE;
+        bProc_Cond_2111:=FALSE;
+        bProc_Cond_2121:=FALSE;
+        bProc_Cond_2211:=FALSE;
+        bProc_Cond_2221:=FALSE;
+        bProc_Cond_2311:=FALSE;
+        bProc_Cond_2321:=FALSE;
+        bProc_Cond_2411:=FALSE;
+        bProc_Cond_2421:=FALSE;
+
     ENDPROC
     
 ENDMODULE

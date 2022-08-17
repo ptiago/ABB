@@ -70,10 +70,10 @@ MODULE IHM
         FOR i FROM 1 TO 2 DO
            
             TPWrite "Produto: "+cPart{cPallet_Status{i}.Part_In_Pallet}.Name+"";
-            TPWrite "Paletes produzidos:"\Num:=cProduction_Cur{i}.Pallet_Completed;
-            TPWrite "Paletes rejeitados:"\Num:=cProduction_Cur{i}.Pallet_Rejected;
-            TPWrite "Total de caixas produzidas:"\Num:=cProduction_Cur{i}.Box_Dropped_Total;
-            TPWrite "Tempo medio de producao:"\Num:=cProduction_Cur{i}.Cicle_Time_Avr;
+            TPWrite "Paletes produzidos:"\Num:=cProduction_Part{cPallet_Status{i}.Part_In_Pallet}.Pallet_Completed;
+            TPWrite "Paletes rejeitados:"\Num:=cProduction_Part{cPallet_Status{i}.Part_In_Pallet}.Pallet_Rejected;
+            TPWrite "Total de caixas produzidas:"\Num:=cProduction_Part{cPallet_Status{i}.Part_In_Pallet}.Box_Dropped_Total;
+            TPWrite "Tempo medio de producao:"\Num:=cProduction_Part{cPallet_Status{i}.Part_In_Pallet}.Cicle_Time_Avr;
             
         ENDFOR
         
@@ -99,7 +99,7 @@ MODULE IHM
         FOR i FROM 1 TO 2 DO
             !Escolhe para o palete i
             TPErase;
-            TPReadFK nReg_1,"Qual produto no palete: "+ NumToStr(i,0)+ "","Saboroso","Delicioso","Fantastico","Bolachudo","NENHUM";
+            TPReadFK nReg_1,"Qual produto no palete: "+ NumToStr(i,0)+ "",cPart{1}.Name,cPart{2}.Name,cPart{3}.Name,cPart{4}.Name,"NENHUM";
 
             !Verifica resposta do usuario
             IF (nReg_1 = 5) THEN
@@ -139,6 +139,43 @@ MODULE IHM
         
         TPErase;
         TPReadFK nReg_1,"Alguns sinais nao estao acionados, o que deseja fazer?","Tentar novamente",stEmpty,stEmpty,stEmpty,"Continuar";
+        
+    ENDPROC
+    
+    !*** Pergunta ao usuario qual produto sera simulado na esteira
+    PROC rMsg_DryRun_Part()
+        
+        TPErase;
+        TPReadFK nReg_1,"Qual palete sera simulado?","Direito","Esquerdo","Ambos","Alternado","NENHUM";
+        
+        nDryRun_Seting_1 := nReg_1;
+        
+        IF (nDryRun_Seting_1 = 5) STOP;
+        
+    ENDPROC
+    
+    !*** Pergunta para o usuario se deseja continuar para a proxima etapa do processo
+    PROC rRequest_Continue()
+        
+        TPErase;
+        TPReadFK nReg_1, "Deseja seguir para proxima etapa","SIM",stEmpty,stEmpty,stEmpty,"NAO";
+        
+        IF (nReg_1 = 5) Stop;
+        
+    ENDPROC
+    
+    !*** Informa ao usuario que o numero de tentativas para entrar em
+    !uma condicao de processo foi esgotado
+    PROC rMsg_Attempts_Over()
+        
+        TPErase;
+        ErrWrite \I, "Numero de tentativas ESGOTADAS!!!",
+                     "Verificar se condicoes de processo", 
+                     \RL2:= "Decision Point: "+NumToStr(nDP,0)+"";
+        
+        nAttempts := 0;
+        
+        ExitCycle;
         
     ENDPROC
 

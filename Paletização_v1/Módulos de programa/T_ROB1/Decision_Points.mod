@@ -27,17 +27,34 @@ MODULE Decision_Points
         
         nDP := 1;
         
-        LABEL_0:
+        !Verifica qual o modo de operacao de Dry Run
+        IF ((bDry_Run = TRUE) AND (nDryRun_Seting_1 = 0)) THEN 
+            rDryRun_Par;
+            
+        ELSEIF ((bDry_Run = TRUE) AND (nDryRun_Seting_1 <> 0)) THEN
+            GOTO LABEL_1;
+            
+        ENDIF
         
+        WHILE (GI_001_BOX_PROD_IN = 0) DO
+            
         !Aguarda caixa chegar na esteira
         rSet_Segment 81;
             MoveJ cStation{3}.pPounce, vmax,z50, cTool_Cur.Tool_Data \WObj:= cStation{3}.Wobj_Data;
         
-        !Aguarda o PLC informar um produto
-        IF GI_001_BOX_PROD_IN = 0 GOTO LABEL_0;
-            
+        ClkStop clCicle_Running;
+         
+        ENDWHILE
+        
         rChk_Part_In_Con;
         
+        LABEL_1:
+        
+        !Faz a leitura do tempo do ciclo anterior e inicia o tempo de ciclo
+        cProduction_Part{nCur_Pallet}.Cicle_Time_Last := ClkRead (clCicle_Running);
+        ClkReset clCicle_Running;
+        ClkStart clCicle_Running;
+         
         !Informa a proxima etapa de producao
         Incr nDP;
         
@@ -46,33 +63,43 @@ MODULE Decision_Points
     PROC rDP_2()
         
         nDP := 2;
-
+       
         !Prioridade 1
         IF fProc_Cond_1131() THEN
             nProcDestino := 1131;
 
-            !Prioridade 2   
+        !Prioridade 2   
         ELSEIF fProc_Cond_1231() THEN
             nProcDestino := 1231;
 
-            !Prioridade 3
+        !Prioridade 3
         ELSEIF fProc_Cond_1331() THEN
             nProcDestino := 1331;
 
-            !Prioridade 4
+        !Prioridade 4
         ELSEIF fProc_Cond_1431() THEN
             nProcDestino := 1431;
 
-            !Prioridade 5
+        !Nenhuma prioridade com valor TRUE
         ELSE
-            nProcDestino := 81;
+            !Faz com que este ponto de decisao seja executado enquanto nao houver 
+            !nenhuma das prioridades com condicoes verdadeira
+            
+            Incr nAttempts;
+            
+            GOTO LABEL_99;
         ENDIF
 
+        !Reseta o numero de tentavias para entrar em uma condicao
+        nAttempts := 0;
+        
         !Executa a rotina de destino
         CallByVar "r",nProcDestino;
     
         !Informa a proxima etapa de producao
         Incr nDP;
+        
+        LABEL_99:
 
     ENDPROC
 
@@ -112,15 +139,25 @@ MODULE Decision_Points
         ELSEIF fProc_Cond_2421() THEN
             nProcDestino := 2421;
 
+       !Nenhuma prioridade com valor TRUE
         ELSE
-            !rAlarme
+            !Faz com que este ponto de decisao seja executado enquanto nao houver 
+            !nenhuma das prioridades com condicoes verdadeira
+            
+            !rMensagem
+            GOTO LABEL_99;
         ENDIF
 
+        !Reseta o numero de tentavias para entrar em uma condicao
+        nAttempts := 0;
+        
         !Executa a rotina de destino
         CallByVar "r",nProcDestino;
         
         !Informa a proxima etapa de producao
         nDP := 1;
+        
+        LABEL_99:
 
     ENDPROC
 

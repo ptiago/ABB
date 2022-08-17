@@ -29,7 +29,16 @@ MODULE Main_Module
         
         !Verifica se houve requisicao para encerrar producao
         WHILE ((DI_004_END_CICLE <> 1) AND (nDP <> 1)) DO
+            
+            rRequest_Continue;
+            
             CallByVar "rDP_", nDP;
+            
+            !Verifica se numero de tentativas para executar um processo foi excedido
+            IF (nAttempts > 2) rMsg_Attempts_Over;
+            
+            rReset_Per_Proc_Cond;
+            
         ENDWHILE
         
         rMsg_End_Cicle;

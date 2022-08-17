@@ -33,21 +33,32 @@ MODULE Process_Conditions
             cPallet_Status{nCur_Pallet}.Part_In_Pallet = 1 AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_007_PRES_BOX_1 = 1 AND
             DI_008_PRES_BOX_2 = 1
             ) OR
             (
+            bDry_Run = TRUE
+            )
+            ) OR
+            (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 0
+            DI_008_PRES_BOX_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
             
         THEN
+            bProc_Cond_1131 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_1131 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -63,20 +74,30 @@ MODULE Process_Conditions
             cPallet_Status{nCur_Pallet}.Part_In_Pallet = 2 AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 1
+            DI_008_PRES_BOX_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 0
+            DI_008_PRES_BOX_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_1231 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_1231 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -92,20 +113,30 @@ MODULE Process_Conditions
             cPallet_Status{nCur_Pallet}.Part_In_Pallet = 3 AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 1
+            DI_008_PRES_BOX_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 0
+            DI_008_PRES_BOX_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_1331 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_1331 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -121,20 +152,30 @@ MODULE Process_Conditions
             cPallet_Status{nCur_Pallet}.Part_In_Pallet = 4 AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 1
+            DI_008_PRES_BOX_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 0
+            DI_008_PRES_BOX_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_1431 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_1431 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -151,20 +192,30 @@ MODULE Process_Conditions
             bProcess_OK{1} = TRUE AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 1
+            DI_010_PRES_BOX_TOOL_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 0
+            DI_010_PRES_BOX_TOOL_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_2111 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_2111 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -181,20 +232,30 @@ MODULE Process_Conditions
             bProcess_OK{1} = TRUE AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 1
+            DI_010_PRES_BOX_TOOL_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 0
+            DI_010_PRES_BOX_TOOL_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_2121 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_2121 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -211,20 +272,30 @@ MODULE Process_Conditions
             bProcess_OK{1} = TRUE AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 1
+            DI_010_PRES_BOX_TOOL_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 0
+            DI_010_PRES_BOX_TOOL_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_2211 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_2211 := TRUE;
             RETURN FALSE;
             
         ENDIF
@@ -241,20 +312,30 @@ MODULE Process_Conditions
             bProcess_OK{1} = TRUE AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 1
+            DI_010_PRES_BOX_TOOL_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 0
+            DI_010_PRES_BOX_TOOL_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_2221 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_2221 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -271,20 +352,30 @@ MODULE Process_Conditions
             bProcess_OK{1} = TRUE AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 1
+            DI_010_PRES_BOX_TOOL_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 0
+            DI_010_PRES_BOX_TOOL_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_2311 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_2311 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -301,20 +392,30 @@ MODULE Process_Conditions
             bProcess_OK{1} = TRUE AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 1
+            DI_010_PRES_BOX_TOOL_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 0
+            DI_010_PRES_BOX_TOOL_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_2321 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_2321 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -331,20 +432,30 @@ MODULE Process_Conditions
             bProcess_OK{1} = TRUE AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 1
+            DI_010_PRES_BOX_TOOL_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 0
+            DI_010_PRES_BOX_TOOL_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_2411 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_2411 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -361,20 +472,30 @@ MODULE Process_Conditions
             bProcess_OK{1} = TRUE AND
             (
             (
+            (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 1
+            DI_010_PRES_BOX_TOOL_2 = 1) OR
+            (
+            bDry_Run = TRUE
+            )
             ) OR
+            (
             (
             cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
             DI_009_PRES_BOX_TOOL_1 = 1 AND
-            DI_010_PRES_BOX_TOOL_2 = 0
+            DI_010_PRES_BOX_TOOL_2 = 0) OR
+            (
+            bDry_Run = TRUE
+            )
             )
             )
         THEN
+            bProc_Cond_2421 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bProc_Cond_2421 := FALSE;
             RETURN FALSE;
             
         ENDIF

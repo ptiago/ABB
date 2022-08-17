@@ -30,9 +30,11 @@ MODULE Permissible
             DI_009_PRES_BOX_TOOL_1 = 0  AND
             DI_010_PRES_BOX_TOOL_2 = 0
         THEN
+            bPer_1131 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_1131 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -46,9 +48,11 @@ MODULE Permissible
             DI_009_PRES_BOX_TOOL_1 = 0  AND
             DI_010_PRES_BOX_TOOL_2 = 0
         THEN
+            bPer_1231 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_1231 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -62,9 +66,11 @@ MODULE Permissible
             DI_009_PRES_BOX_TOOL_1 = 0  AND
             DI_010_PRES_BOX_TOOL_2 = 0
         THEN
+            bPer_1331 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_1331 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -78,9 +84,11 @@ MODULE Permissible
             DI_009_PRES_BOX_TOOL_1 = 0  AND
             DI_010_PRES_BOX_TOOL_2 = 0
         THEN
+            bPer_1431 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_1431 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -94,9 +102,11 @@ MODULE Permissible
             DI_005_PRES_PAL_RIGHT = 1 AND
             bProcess_OK{2} = FALSE
         THEN
+            bPer_2111 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_2111 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -110,9 +120,11 @@ MODULE Permissible
             DI_006_PRES_PAL_LEFT= 1 AND
             bProcess_OK{2} = FALSE
         THEN
+            bPer_2121 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_2121 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -126,9 +138,11 @@ MODULE Permissible
             DI_005_PRES_PAL_RIGHT = 1 AND
             bProcess_OK{2} = FALSE
         THEN
+            bPer_2211 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_2211 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -142,9 +156,11 @@ MODULE Permissible
             DI_006_PRES_PAL_LEFT= 1 AND
             bProcess_OK{2} = FALSE
         THEN
+            bPer_2221 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_2221 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -158,9 +174,11 @@ MODULE Permissible
             DI_005_PRES_PAL_RIGHT = 1 AND
             bProcess_OK{2} = FALSE
         THEN
+            bPer_2311 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_2311 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -174,9 +192,11 @@ MODULE Permissible
             DI_006_PRES_PAL_LEFT= 1 AND
             bProcess_OK{2} = FALSE
         THEN
+            bPer_2321 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_2321 := FALSE;
             RETURN FALSE;
             
         ENDIF
@@ -190,9 +210,11 @@ MODULE Permissible
             DI_005_PRES_PAL_RIGHT = 1 AND
             bProcess_OK{2} = FALSE
         THEN
+            bPer_2411 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_2411 := TRUE;
             RETURN FALSE;
             
         ENDIF
@@ -206,9 +228,11 @@ MODULE Permissible
             DI_006_PRES_PAL_LEFT= 1 AND
             bProcess_OK{2} = FALSE
         THEN
+            bPer_2421 := TRUE;
             RETURN TRUE;
             
         ELSE
+            bPer_2421 := FALSE;
             RETURN FALSE;
             
         ENDIF
