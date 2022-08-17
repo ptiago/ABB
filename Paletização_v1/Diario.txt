@@ -39,3 +39,12 @@ Rev_15/8/22_1
 - Rotina Main editada para facilitar a chamada de programas;
 - Módulo 'Decision_Points' foram editados afim de indicar qual é o ponto de decisão em que o programa está, e qual será o próximo;
 - Adicionado na classe cPar_Part o argumento 'Box_In_Layer' para saber qual é o máximo de caixas que vão em uma camada
+
+Rev_17/8/22_1
+- Implementado Dry Run. Alteração na lógica nas partes do programa aonde são requisitados alguns sinais de IO para verificação;
+- Editada a rotina 'rTouchUp_Points';
+- Acresentado dois robtargets a mais na classe cPar_Part e alterado outros dois. Os quatro novos pontos agora são 'pDrop_Hori_PalRight', 'pDrop_Vert_PalRight', 'pDrop_Hori_PalLeft', 'pDrop_Vert_PalLeft';
+- Módulo 'Auxiliar' foi concluído;
+- Criada rotina para verificar se houve queda de caixa durante deposito;
+- Criada a rotina 'rMsg_Attempts_Over' para informar ao usuario que nenhuma das condições de processo foram satisfeita;
+- Declaradas as inputs de alarmes.
