@@ -25,7 +25,11 @@ MODULE Main_Module
 
     PROC main()
         
+        !Reseta celula?
         rMsg_Reset_Cell;
+        
+        !Escolhe produto
+        rMsg_Set_Part;
         
         !Verifica se houve requisicao para encerrar producao
         WHILE ((DI_004_END_CICLE <> 1) AND (nDP <> 1)) DO

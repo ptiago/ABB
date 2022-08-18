@@ -77,30 +77,121 @@ MODULE Process
     !*** Reseta toda a celula
     PROC rReset_Cell()
 
-!        !Numericas
-!        nEstacao:=0;
-!        nPath_Seg:=0;
-!        nPeca:=0;
-!        nPeca_Na_Garra:=[0,0];
-!        nPecas_NOK:=0;
-!        nProcesso:=0;
-!        nSub_Path:=0;
-
-!        !Booleanas
-!        bDescarte_Cheio:=FALSE;
-!        bEst_Livre_Dep:=FALSE;
-!        bPeca_NOK:=FALSE;
-!        bSeg_At_Pos:=FALSE;
-
-!        FOR i FROM 1 TO 3 DO
-!            bInsp_Caixa_Cheia{i}:=FALSE;
-!        ENDFOR
-
-!        FOR i FROM 1 TO 15 DO
-!            bProcess_OK{i}:=FALSE;
-!        ENDFOR
+        !########## FOLD CLASSES
+        cProcess_Cur := [0,"EMPTY"];
         
-!        rMensagem 13,1,1,1;
+        cPart_Cur := [
+                      0,"EMPTY",
+                      0,0,0,
+                      0,0,0,0,0,0,
+                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                      [5,[50,0,50],[1,0,0,0],0,0,0],
+                      [[600,500,225.3],[1,0,0,0],[1,1,0,0],[11,12.3,9E9,9E9,9E9,9E9]],
+                      [[600,500,225.3],[1,0,0,0],[1,1,0,0],[11,12.3,9E9,9E9,9E9,9E9]],
+                      [[600,500,225.3],[1,0,0,0],[1,1,0,0],[11,12.3,9E9,9E9,9E9,9E9]],
+                      [[600,500,225.3],[1,0,0,0],[1,1,0,0],[11,12.3,9E9,9E9,9E9,9E9]],
+                      [[600,500,225.3],[1,0,0,0],[1,1,0,0],[11,12.3,9E9,9E9,9E9,9E9]],
+                      [[600,500,225.3],[1,0,0,0],[1,1,0,0],[11,12.3,9E9,9E9,9E9,9E9]]
+                     ];
+                     
+        cStation_Cur:= [
+                        0,"EMPTY",
+                        [FALSE,TRUE,"",[[300,600,200],[1,0,0,0]],[[0,200,30],[1,0,0,0]]],
+                        [[600,500,225.3],[1,0,0,0],[1,1,0,0],[11,12.3,9E9,9E9,9E9,9E9]],
+                        [[600,500,225.3],[1,0,0,0],[1,1,0,0],[11,12.3,9E9,9E9,9E9,9E9]]
+                       ];
+                       
+        cTool_Cur := [
+                      0,"EMPTY",
+                      [TRUE,[[97.4,0,223.1],[0.924,0,0.383,0]],[5,[23,0,75],[1,0,0,0],0,0,0]]
+                     ];
+                     
+        cSegment_Cur := [0,"EMPTY"];
+        
+        cPallet_Drop := [
+                         [0,0,0,0,0],
+                         [0,0,0,0,0],
+                         [0,0,0,0,0],
+                         [0,0,0,0,0],
+                         [0,0,0,0,0],
+                         [0,0,0,0,0],
+                         [0,0,0,0,0],
+                         [0,0,0,0,0],
+                         [0,0,0,0,0],
+                         [0,0,0,0,0]
+                        ];
+                        
+        nCurrent_Layout := [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        
+        cPallet_Status := [
+                           [0,"",1,1,0,0,FALSE,0,0,0,0,0],
+                           [0,"",1,1,0,0,FALSE,0,0,0,0,0]
+                          ];
+        !########## FOLD CLASSES
+        
+        
+        !########## FOLD NUMERICAS
+        nAttempts     := 0;
+        nBox_In_Layer := 0;
+        nDP := 1;
+        nDryRun_Seting_1 := 0;
+        nCur_Pallet      := 0;
+        nLayers_In_Pallet   := 0;
+        nPart_In_Con := 0;
+        nProcDestino := 0;
+        nSensor :=[
+                   [0,0,0,0,0],
+                   [0,0,0,0,0]
+                  ];
+        nSum_clCicle_Running := 0;
+        !########## ENDFOLD NUMERICAS
+        
+        
+        !########## FOLD BOOLEANAS
+        bAt_Home    := FALSE;
+        bDry_Run    := FALSE;
+        bProcess_OK := [FALSE,FALSE];
+        bPer_1131   := FALSE;
+        bPer_1231   := FALSE;
+        bPer_1331   := FALSE;
+        bPer_1431   := FALSE;
+        bPer_2111   := FALSE;
+        bPer_2121   := FALSE;
+        bPer_2211   := FALSE;
+        bPer_2221   := FALSE;
+        bPer_2311   := FALSE;
+        bPer_2321   := FALSE;
+        bPer_2411   := FALSE;
+        bPer_2421   := FALSE;
+        bProc_Cond_1131 := FALSE;
+        bProc_Cond_1231 := FALSE;
+        bProc_Cond_1331 := FALSE;
+        bProc_Cond_1431 := FALSE;
+        bProc_Cond_2111 := FALSE;
+        bProc_Cond_2121 := FALSE;
+        bProc_Cond_2211 := FALSE;
+        bProc_Cond_2221 := FALSE;
+        bProc_Cond_2311 := FALSE;
+        bProc_Cond_2321 := FALSE;
+        bProc_Cond_2411 := FALSE;
+        bProc_Cond_2421 := FALSE;
+        !########## ENDFOLD BOOLEANAS
+        
+        
+        !########## FOLD TEMPORIZADORES
+        ClkStop clCicle_Running;
+        ClkReset clCicle_Running;
+        ClkStop clCicle_Stopped;
+        ClkReset clCicle_Stopped;
+        !########## ENDFOLD TEMPORIZADORES
+        
+        rReset_Pal 1;
+        rReset_Pal 2;
+        
+        rReset_Per_Proc_Cond;
+
+        rMessage 14,14,1,1,1;
+        WaitTime 3;
 
     ENDPROC
     
@@ -108,18 +199,20 @@ MODULE Process
     PROC rChk_Part_In_Con()
         
         !PLC informa de qual produto e caixa que esta na esteira
-        nReg_1 := GI_001_BOX_PROD_IN;
+        nPart_In_Con := GI_001_BOX_PROD_IN;
         
         !Verifica se o produto que esta na esteira condiz com o escolhido pelo usuario
-        IF ((cPallet_Status{1}.Part_In_Pallet <> nReg_1) AND (cPallet_Status{2}.Part_In_Pallet <> nReg_1)) rAlarm 2;
+        IF ((cPallet_Status{1}.Part_In_Pallet <> nPart_In_Con) AND (cPallet_Status{2}.Part_In_Pallet <> nPart_In_Con))  rAlarm 3,4,1,1,1;
         
         !Verifica em qual palete esta sendo feito este produto
-        IF (cPallet_Status{1}.Part_In_Pallet = nReg_1) THEN
+        IF (cPallet_Status{1}.Part_In_Pallet = nPart_In_Con) THEN
             nCur_Pallet := 1;
             
-        ELSEIF (cPallet_Status{2}.Part_In_Pallet = nReg_1) THEN
+        ELSEIF (cPallet_Status{2}.Part_In_Pallet = nPart_In_Con) THEN
             nCur_Pallet := 2;
-            
+        
+        ELSE
+            rAlarm 3,4,1,1,1;
         ENDIF   
         
     ENDPROC
@@ -148,20 +241,24 @@ MODULE Process
         nReg_1 := cPallet_Status{nCur_Pallet}.Pos_Cur;
         nReg_1 := cPallet_Drop{nReg_1}.Rot;
         
+        Add nReg_1, nCur_Pallet;
         
-        IF ((nReg_1 = 0) AND (nCur_Pallet = 1)) THEN
+        TEST nReg_1
+        CASE 1:
             pDrop_Cur := cPart_Cur.pDrop_Hori_PalRight;
-        
-        ELSEIF ((nReg_1 = 90) AND (nCur_Pallet = 1)) THEN
-            pDrop_Cur := cPart_Cur.pDrop_Vert_PalRight;
             
-        ELSEIF ((nReg_1 = 0) AND (nCur_Pallet = 2)) THEN
+        CASE 91:
+            pDrop_Cur := cPart_Cur.pDrop_Vert_PalRight;
+        
+        CASE 2:
+             pDrop_Cur := cPart_Cur.pDrop_Hori_PalLeft;
+        
+        CASE 92:
             pDrop_Cur := cPart_Cur.pDrop_Hori_PalLeft;
         
-        ELSEIF ((nReg_1 = 90) AND (nCur_Pallet = 2)) THEN
-            pDrop_Cur := cPart_Cur.pDrop_Hori_PalLeft;
-           
-        ENDIF
+        DEFAULT:
+        
+        ENDTEST
         
     ENDPROC
     
@@ -389,10 +486,10 @@ MODULE Process
     !*** Atualiza contagem do palete
     PROC rUpt_Pal_Pos()
         
-        IF ((bSensor_NOK = TRUE) AND (bDry_Run = FALSE)) rAlarm 1;
+        IF ((bSensor_NOK = TRUE) AND (bDry_Run = FALSE)) rAlarm 6,5,1,1,1;
         
         Incr cPallet_Status{nCur_Pallet}.Pos_Cur;
-        Incr cProduction_Part{cPallet_Status{nCur_Pallet}.Part_In_Pallet}.Box_Dropped_Total;
+        Incr cPallet_Status{nCur_Pallet}.Box_Dropped;
         
         !Verifica se atingiu o maximo de caixas em uma camada
         IF (cPallet_Status{nCur_Pallet}.Pos_Cur < cPart_Cur.Box_In_Layer) GOTO LABEL_99;
@@ -405,15 +502,16 @@ MODULE Process
         
         cPallet_Status{nCur_Pallet}.Layer_Cur := 1;
         cPallet_Status{nCur_Pallet}.Pallet_Complete := TRUE;
-        Incr cProduction_Part{cPallet_Status{nCur_Pallet}.Part_In_Pallet}.Pallet_Completed;
+        Incr cPallet_Status{nCur_Pallet}.Pallets_Done;
         
         LABEL_99:
+        
     ENDPROC
     
     !*** Reseta o palete (T_ROB1 / T_PROCESS)
     PROC rReset_Pal(num Pallet)
         
-        cPallet_Status{Pallet} := [0,1,1,0,0,FALSE];
+        cPallet_Status{Pallet} := [0,"",1,1,0,0,FALSE,0,0,0,0,0];
         
     ENDPROC
     
@@ -438,7 +536,7 @@ MODULE Process
             GOTO LABEL_6;
         
         DEFAULT:
-            rMessage 1;
+            rAlarm 2,1,1,1,1;
         
         ENDTEST
         
@@ -562,30 +660,30 @@ MODULE Process
     !*** Reseta os marcadores de permissiveis, e condicoes de processo
     PROC rReset_Per_Proc_Cond()
 
-        bPer_1131:=FALSE;
-        bPer_1231:=FALSE;
-        bPer_1331:=FALSE;
-        bPer_1431:=FALSE;
-        bPer_2111:=FALSE;
-        bPer_2121:=FALSE;
-        bPer_2211:=FALSE;
-        bPer_2221:=FALSE;
-        bPer_2311:=FALSE;
-        bPer_2321:=FALSE;
-        bPer_2411:=FALSE;
-        bPer_2421:=FALSE;
-        bProc_Cond_1131:=FALSE;
-        bProc_Cond_1231:=FALSE;
-        bProc_Cond_1331:=FALSE;
-        bProc_Cond_1431:=FALSE;
-        bProc_Cond_2111:=FALSE;
-        bProc_Cond_2121:=FALSE;
-        bProc_Cond_2211:=FALSE;
-        bProc_Cond_2221:=FALSE;
-        bProc_Cond_2311:=FALSE;
-        bProc_Cond_2321:=FALSE;
-        bProc_Cond_2411:=FALSE;
-        bProc_Cond_2421:=FALSE;
+        bPer_1131   := FALSE;
+        bPer_1231   := FALSE;
+        bPer_1331   := FALSE;
+        bPer_1431   := FALSE;
+        bPer_2111   := FALSE;
+        bPer_2121   := FALSE;
+        bPer_2211   := FALSE;
+        bPer_2221   := FALSE;
+        bPer_2311   := FALSE;
+        bPer_2321   := FALSE;
+        bPer_2411   := FALSE;
+        bPer_2421   := FALSE;
+        bProc_Cond_1131 := FALSE;
+        bProc_Cond_1231 := FALSE;
+        bProc_Cond_1331 := FALSE;
+        bProc_Cond_1431 := FALSE;
+        bProc_Cond_2111 := FALSE;
+        bProc_Cond_2121 := FALSE;
+        bProc_Cond_2211 := FALSE;
+        bProc_Cond_2221 := FALSE;
+        bProc_Cond_2311 := FALSE;
+        bProc_Cond_2321 := FALSE;
+        bProc_Cond_2411 := FALSE;
+        bProc_Cond_2421 := FALSE;
 
     ENDPROC
     

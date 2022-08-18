@@ -25,28 +25,61 @@ MODULE IHM
 !===========================================
 
     !*** Mostra na Teach Pendant eventos que geram parada no programa
-    PROC rAlarm(num Alarm)
-        <SMT>
+    PROC rAlarm(num Header, num Reason_1, num Reason_2, num Reason_3, num Reason_4)
+        
+        ErrWrite \W,
+                 sMessage{Header},
+                 sMessage{Reason_1},
+                 \RL2 := sMessage{Reason_2},
+                 \RL3 := sMessage{Reason_3},
+                 \RL4 := sMessage{Reason_4};   
+        Stop;
+        
     ENDPROC
     
     !*** Informa o usuario que o valor no argumento nao pode ser usado neste tipo de I/O
     PROC rAlarm_2(string IO_Tipe,num Value)
         
-        ErrWrite \W,"VALOR NAO COMPATIVEL",
+        ErrWrite \W,
+                 "VALOR NAO COMPATIVEL",
                  "O valor: "+NumToStr(Value,0)+" usado no argumento nao, e valido para I/O's do tipo "+IO_Tipe+"",
-                 \RL2 := "E necessario escolher outro valor";
-                 
+                 \RL2 := "E necessario escolher outro valor";  
         Stop;
+        
     ENDPROC
 
     !*** Mostra na Teach Pendant eventos que que nao geram parada no programa
-    PROC rMessage(num message)
-        <SMT>
+    PROC rMessage(num Header, num Reason_1, num Reason_2, num Reason_3, num Reason_4)
+        
+        ErrWrite \I,
+                 sMessage{Header},
+                 sMessage{Reason_1},
+                 \RL2 := sMessage{Reason_2},
+                 \RL3 := sMessage{Reason_3},
+                 \RL4 := sMessage{Reason_4};    
+                 
     ENDPROC
 
     !*** Pergunta se celula deve ser rejeitada
     PROC rMsg_Reset_Cell()
-        <SMT>
+        
+        TPErase;
+        TPReadFK nReg_1, "Gostaria de resetar toda a celula?","SIM",stEmpty,stEmpty,stEmpty,"NAO";
+        
+        IF (nReg_1 = 5) GOTO LABEL_99;
+        
+        TPReadFK nReg_1, "TEM CERTEZA ???","SIM",stEmpty,stEmpty,stEmpty,"NAO";
+        
+        IF (nReg_1 = 5) GOTO LABEL_99;
+        
+        rReset_Cell;
+        
+        TPErase;
+        TPWrite "CELULA RESETA COM SUCESSO";
+        WaitTime 3;
+        
+        LABEL_99:
+        
     ENDPROC
 
     !*** Pergunta o procedimento para o final do ciclo
@@ -69,11 +102,11 @@ MODULE IHM
         !Estatisticas dos paletes
         FOR i FROM 1 TO 2 DO
            
-            TPWrite "Produto: "+cPart{cPallet_Status{i}.Part_In_Pallet}.Name+"";
-            TPWrite "Paletes produzidos:"\Num:=cProduction_Part{cPallet_Status{i}.Part_In_Pallet}.Pallet_Completed;
-            TPWrite "Paletes rejeitados:"\Num:=cProduction_Part{cPallet_Status{i}.Part_In_Pallet}.Pallet_Rejected;
-            TPWrite "Total de caixas produzidas:"\Num:=cProduction_Part{cPallet_Status{i}.Part_In_Pallet}.Box_Dropped_Total;
-            TPWrite "Tempo medio de producao:"\Num:=cProduction_Part{cPallet_Status{i}.Part_In_Pallet}.Cicle_Time_Avr;
+            TPWrite "Produto: "+cPallet_Status{i}.Part_In_Name+"";
+            TPWrite "Paletes produzidos:"\Num:=         cPallet_Status{i}.Pallets_Done;
+            TPWrite "Paletes rejeitados:"\Num:=         cPallet_Status{i}.Pallets_Rejected;
+            TPWrite "Total de caixas produzidas:"\Num:= cPallet_Status{i}.Box_Dropped;
+            TPWrite "Tempo medio de producao:"\Num:=    cPallet_Status{i}.Cicle_Time_Avr;
             
         ENDFOR
         
@@ -105,17 +138,19 @@ MODULE IHM
             IF (nReg_1 = 5) THEN
                 !Deixa o palete i sem produto
                 cPallet_Status{i}.Part_In_Pallet := 0;
+                cPallet_Status{i}.Part_In_Name   := "VAZIO";
 
             ELSE
                 cPallet_Status{i}.Part_In_Pallet := nReg_1;
+                cPallet_Status{i}.Part_In_Name   := cPart{cPallet_Status{i}.Part_In_Pallet}.Name;
                 
             ENDIF
         ENDFOR
 
         !Confirma selecao de produtos
         TPErase;
-        TPWrite "Palete 1 = "+ cPart{cPallet_Status{1}.Part_In_Pallet}.Name +"";
-        TPWrite "Palete 2 = "+ cPart{cPallet_Status{1}.Part_In_Pallet}.Name +"";
+        TPWrite "Palete 1 = "+ cPallet_Status{1}.Part_In_Name +"";
+        TPWrite "Palete 2 = "+ cPallet_Status{2}.Part_In_Name +"";
         TPReadFK nReg_1,"Confirmar producao?","SIM",stEmpty,stEmpty,stEmpty,"NAO";
 
         IF (nReg_1 = 5) GOTO LABEL_1; !Escolhe novamente
@@ -142,7 +177,7 @@ MODULE IHM
         
     ENDPROC
     
-    !*** Pergunta ao usuario qual produto sera simulado na esteira
+    !*** Pergunta ao usuario em qual palete o produto sera simulado
     PROC rMsg_DryRun_Part()
         
         TPErase;
@@ -169,9 +204,10 @@ MODULE IHM
     PROC rMsg_Attempts_Over()
         
         TPErase;
-        ErrWrite \I, "Numero de tentativas ESGOTADAS!!!",
-                     "Verificar se condicoes de processo", 
-                     \RL2:= "Decision Point: "+NumToStr(nDP,0)+"";
+        ErrWrite \I, 
+                 "Numero de tentativas ESGOTADAS!!!",
+                 "Verificar se condicoes de processo", 
+                 \RL2:= "Decision Point: "+NumToStr(nDP,0)+"";
         
         nAttempts := 0;
         

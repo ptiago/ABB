@@ -51,7 +51,13 @@ MODULE Decision_Points
         LABEL_1:
         
         !Faz a leitura do tempo do ciclo anterior e inicia o tempo de ciclo
-        cProduction_Part{nCur_Pallet}.Cicle_Time_Last := ClkRead (clCicle_Running);
+        cPallet_Status{nCur_Pallet}.Cicle_Time_Last := ClkRead (clCicle_Running);
+        
+        !Incrementa o valor atual na media
+        Add nSum_clCicle_Running, cPallet_Status{nCur_Pallet}.Cicle_Time_Last;
+        cPallet_Status{nCur_Pallet}.Cicle_Time_Avr := (nSum_clCicle_Running / cPallet_Status{nCur_Pallet}.Pallets_Done);
+        
+        !Reinicia o cronometro
         ClkReset clCicle_Running;
         ClkStart clCicle_Running;
          

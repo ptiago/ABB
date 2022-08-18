@@ -209,7 +209,7 @@ MODULE Auxiliar
         
         MotionSup \Off;
         
-        rMessage 1;
+        rMessage 12,13,1,1,1;
         
     ENDPROC
     
