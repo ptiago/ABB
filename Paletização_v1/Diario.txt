@@ -48,3 +48,14 @@ Rev_17/8/22_1
 - Criada rotina para verificar se houve queda de caixa durante deposito;
 - Criada a rotina 'rMsg_Attempts_Over' para informar ao usuario que nenhuma das condições de processo foram satisfeita;
 - Declaradas as inputs de alarmes.
+
+Rev_18/8/22_1
+- Classe 'cPallet_Par' foi excluida e os atributos referentes a ela foram transferidos para a classe 'cProduction_Par'. Realizada adequação do programa devido a esta mudança. A inteção é tornar o
+código mais legível.
+- Editada a rotina 'rSet_Drop_Cur' para melhor entendimento do código
+- Editada a rotina 'Reset_Cell';
+
+Rev_24/8/22_1
+- Marcado as bases;
+- Alterado rotina 'rTouchUp_Points' para poder marcar os pontos, já que em um MoveJ o robô não consegue usar um elemento de classe como bases, ferramenta, nem o próprio ponto em si;
+- Marcado os pontos do produto 'Saboroso';
