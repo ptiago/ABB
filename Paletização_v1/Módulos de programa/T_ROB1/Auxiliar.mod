@@ -29,22 +29,29 @@ MODULE Auxiliar
         
         !########## FOLD SABOROSO
         !Pega de uma caixa Saboroso na esteira
-        MoveJ cPart{1}.pPick_Conv_1, v1500, fine, cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wConveyor;
+        cPart{1}.pPick_Conv_1 := pReg_1;
         
         !Pega de duas caixa Saboroso na esteira
-        MoveJ cPart{1}.pPick_Conv_2, v1500, fine, cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
-        
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wConveyor;
+        cPart{1}.pPick_Conv_2 := pReg_1;
+       
         !Deposito na vertical do Saboroso no palete direito
-        MoveJ cPart{1}.pDrop_Vert_PalRight, v1500, fine, cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Right;
+        cPart{1}.pDrop_Vert_PalRight := pReg_1;
         
         !Deposito na horizontal do Saboroso no palete direito
-        MoveJ cPart{1}.pDrop_Hori_PalRight, v1500, fine, cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Right;
+        cPart{1}.pDrop_Hori_PalRight := pReg_1;
         
         !Deposito na vertical do Saboroso no palete esquerdo
-        MoveJ cPart{1}.pDrop_Vert_PalLeft, v1500, fine, cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Left;
+        cPart{1}.pDrop_Vert_PalLeft := pReg_1;
         
         !Deposito na horizontal do Saboroso no palete esquerdo
-        MoveJ cPart{1}.pDrop_Hori_PalLeft, v1500, fine, cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Left;
+        cPart{1}.pDrop_Hori_PalLeft := pReg_1;
+        
         !########## ENDFOLD SABOROSO
         
         
@@ -139,6 +146,10 @@ MODULE Auxiliar
         
         !Home do robô
         MoveJ pHome, v1500, fine, tool0 \WObj:= wobj0;
+        
+        !Teste origem do work object
+        !*Mudar o ponto
+        MoveJ pPallet_Right_Point_X1, v1500, fine, tool0\WObj:= wobj0;
         
     ENDPROC
     

@@ -59,7 +59,7 @@ MODULE Permissible
         
     ENDFUNC
     
-    !*** PPick Fantastico in conveyor in with vacuum
+    !*** Pick Fantastico in conveyor in with vacuum
     FUNC bool fPer_1331()
         
         IF 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <Program>
+	<Module>Wobj_wConveyor.mod</Module>
 	<Module>Auxiliar.mod</Module>
 	<Module>Permissible.mod</Module>
 	<Module>Drive.mod</Module>

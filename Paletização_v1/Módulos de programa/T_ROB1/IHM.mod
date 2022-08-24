@@ -68,6 +68,7 @@ MODULE IHM
         
         IF (nReg_1 = 5) GOTO LABEL_99;
         
+        TPErase;
         TPReadFK nReg_1, "TEM CERTEZA ???","SIM",stEmpty,stEmpty,stEmpty,"NAO";
         
         IF (nReg_1 = 5) GOTO LABEL_99;
@@ -94,8 +95,6 @@ MODULE IHM
         
         rRecovery_Home;
         
-        rReset_Cell;
-        
         TPErase;
         TPWrite "PRODUCAO ENCERRADA COM SUCESSO!";
         
@@ -109,6 +108,8 @@ MODULE IHM
             TPWrite "Tempo medio de producao:"\Num:=    cPallet_Status{i}.Cicle_Time_Avr;
             
         ENDFOR
+        
+        rReset_Cell;
         
         !Retorna para primeira linha da main
         ExitCycle;
@@ -151,6 +152,7 @@ MODULE IHM
         TPErase;
         TPWrite "Palete 1 = "+ cPallet_Status{1}.Part_In_Name +"";
         TPWrite "Palete 2 = "+ cPallet_Status{2}.Part_In_Name +"";
+        TPWrite "";
         TPReadFK nReg_1,"Confirmar producao?","SIM",stEmpty,stEmpty,stEmpty,"NAO";
 
         IF (nReg_1 = 5) GOTO LABEL_1; !Escolhe novamente
