@@ -22,7 +22,7 @@ MODULE Main_Module_tProcess
 ! Main
 !===========================================
 
-    PROC main_tProcess()
+    PROC main()
 
         !*** Verifica se o palete direito foi retirado
         IF (DI_019_PAL_RIGHT_RESET = 1) rReset_Pal 1;
@@ -37,41 +37,41 @@ MODULE Main_Module_tProcess
     !*** Reseta o palete (T_ROB1 / T_PROCESS)
     PROC rReset_Pal(num Pallet)
         
-        cPallet_Status{Pallet} := [0,"",1,1,0,0,FALSE,0,0,0,0,0];
-        Incr cPallet_Status{Pallet}.Pallets_Rejected;
+!        cPallet_Status{Pallet} := [0,"",1,1,0,0,FALSE,0,0,0,0,0];
+!        Incr cPallet_Status{Pallet}.Pallets_Rejected;
         
     ENDPROC
     
     !*** Rastreia queda de caixa
     PROC rBox_Fall()
         
-        IF (
-            cSegment_Cur.Number = 22 OR
-            cSegment_Cur.Number = 26 OR
-            (cSegment_Cur.Number = 3 AND cProcess_Cur.Number = 2)
-            ) 
-            AND
-            (
+!        IF (
+!            cSegment_Cur.Number = 22 OR
+!            cSegment_Cur.Number = 26 OR
+!            (cSegment_Cur.Number = 3 AND cProcess_Cur.Number = 2)
+!            ) 
+!            AND
+!            (
             
-            (
-            (
-            cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
-            (DI_007_PRES_BOX_1 = 0 OR DI_008_PRES_BOX_2 = 0)
-            ) 
-            OR  bDry_Run = TRUE
-            ) 
-            OR
-            (
-            (
-            cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND DI_007_PRES_BOX_1 = 0
-            ) OR bDry_Run = TRUE
-            )
+!            (
+!            (
+!            cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
+!            (DI_007_PRES_BOX_1 = 0 OR DI_008_PRES_BOX_2 = 0)
+!            ) 
+!            OR  bDry_Run = TRUE
+!            ) 
+!            OR
+!            (
+!            (
+!            cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND DI_007_PRES_BOX_1 = 0
+!            ) OR bDry_Run = TRUE
+!            )
             
-            )
-            THEN
-                Incr cPallet_Status{nCur_Pallet}.Box_Fallen;
-                STOP;
-        ENDIF
+!            )
+!            THEN
+!                Incr cPallet_Status{nCur_Pallet}.Box_Fallen;
+!                STOP;
+!        ENDIF
 
     ENDPROC
 
