@@ -59,3 +59,13 @@ Rev_24/8/22_1
 - Marcado as bases;
 - Alterado rotina 'rTouchUp_Points' para poder marcar os pontos, já que em um MoveJ o robô não consegue usar um elemento de classe como bases, ferramenta, nem o próprio ponto em si;
 - Marcado os pontos do produto 'Saboroso';
+
+Rev_26/8/22_1
+- Alterada rotina 'rTouchUp_Points' acresentando a fold Home e Pounce com os respectivos pontos de cada estação
+
+Rev_02/09/22_1
+- Alterado em 'T_ROB1/Main_Module/main' o ciclo while que mantem a produção operante, e o condição para encerrar o ciclo
+- Acresentado 'wCurrent' e 'tCurrent' para receberem os valores atuais de work object e tool consecutivamente nas rotinas 'T_ROB1/Process/rSet_Station' e 'T_ROB1/Process/rSet_Tool'
+- Marcado os ponto de Pounce e Home das três estações
+- Alterada rotina '!T_ROB1/Auxiliar/rTouchUp_Points' com a adição de MoveJ para testar os pontos
+- Alterada rotina 'T_ROB1/Main_Module/r1131' com a adição do comando para atribuição dos offsets de cada ponto do layer
