@@ -32,25 +32,21 @@ MODULE Process_Conditions
             cPallet_Status{nCur_Pallet}.Pallet_Complete = FALSE AND
             cPallet_Status{nCur_Pallet}.Part_In_Pallet = 1 AND
             (
-            (
-            (
-            cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
-            DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 1
-            ) OR
-            (
-            bDry_Run = TRUE
-            )
-            ) OR
-            (
-            (
-            cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
-            DI_007_PRES_BOX_1 = 1 AND
-            DI_008_PRES_BOX_2 = 0) OR
-            (
-            bDry_Run = TRUE
-            )
-            )
+                (
+                    (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 2 AND
+                    DI_007_PRES_BOX_1 = 1 AND
+                    DI_008_PRES_BOX_2 = 1) 
+                    OR
+                    (bDry_Run = TRUE)
+                ) 
+                OR
+                (
+                    (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Qtd_Box = 1 AND
+                    DI_007_PRES_BOX_1 = 1 AND
+                    DI_008_PRES_BOX_2 = 0) 
+                    OR
+                    (bDry_Run = TRUE)
+                )
             )
             
         THEN

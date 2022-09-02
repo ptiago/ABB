@@ -40,7 +40,7 @@ MODULE Decision_Points
             
         !Aguarda caixa chegar na esteira
         rSet_Segment 81;
-            MoveJ cStation{3}.pPounce, vmax,z50, cTool_Cur.Tool_Data \WObj:= cStation{3}.Wobj_Data;
+            MoveJ cStation{3}.pPounce, vmax,z50, tCurrent \WObj:= wCurrent;
         
         ClkStop clCicle_Running;
          
@@ -55,7 +55,13 @@ MODULE Decision_Points
         
         !Incrementa o valor atual na media
         Add nSum_clCicle_Running, cPallet_Status{nCur_Pallet}.Cicle_Time_Last;
+        
+        !Previne calculo quando nao ha ao menos um palete pronto
+        IF cPallet_Status{nCur_Pallet}.Pallets_Done = 0 GOTO LABEL_2;
+        
         cPallet_Status{nCur_Pallet}.Cicle_Time_Avr := (nSum_clCicle_Running / cPallet_Status{nCur_Pallet}.Pallets_Done);
+        
+        LABEL_2:
         
         !Reinicia o cronometro
         ClkReset clCicle_Running;

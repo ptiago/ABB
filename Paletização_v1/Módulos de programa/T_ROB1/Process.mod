@@ -54,16 +54,20 @@ MODULE Process
     ENDPROC
     
     !*** Atribui valores para a estacao atual
-    PROC rSet_Station(num Station)
+    PROC rSet_Station(num Station) !T_ROB1/Process/rSet_Station
         
             cStation_Cur := cStation{Station};
+            
+            wCurrent := cStation_Cur.Wobj_Data;
             
     ENDPROC
     
     !*** Atribui a ferramenta a ser usada
-    PROC rSet_Tool(num Tool)
+    PROC rSet_Tool(num Tool) !T_ROB1/Process/rSet_Tool
 
         cTool_Cur := cTool;
+        
+        tCurrent := cTool_Cur.Tool_Data;
 
     ENDPROC
     
@@ -127,7 +131,7 @@ MODULE Process
                            [0,"",1,1,0,0,FALSE,0,0,0,0,0],
                            [0,"",1,1,0,0,FALSE,0,0,0,0,0]
                           ];
-        !########## FOLD CLASSES
+        !########## ENDFOLD CLASSES
         
         
         !########## FOLD NUMERICAS
@@ -213,7 +217,10 @@ MODULE Process
         
         ELSE
             rAlarm 3,4,1,1,1;
-        ENDIF   
+        ENDIF 
+        
+        !Atribui como atual o produto na esteira
+        rSet_Part cPallet_Status{nCur_Pallet}.Part_In_Pallet;
         
     ENDPROC
     
@@ -299,16 +306,16 @@ MODULE Process
         
         !Pounce
         rSet_Segment 3;
-            MoveJ cStation_Cur.pPounce, v2000, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ cStation_Cur.pPounce, v2000, z10, tCurrent \WObj:= wCurrent;
         
         !Aproximacao
         rSet_Segment 21;
-            MoveJ Offs(pPick_Cur, 0, 0, -200), v1500, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
-            MoveJ Offs(pPick_Cur, 0, 0, -100), v1000,  z5, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
-            MoveJ Offs(pPick_Cur, 0, 0,  -50),  v500,  z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(pPick_Cur, 0, 0, -200), v1500, z10, tCurrent \WObj:= wCurrent;
+            MoveJ Offs(pPick_Cur, 0, 0, -100), v1000,  z5, tCurrent \WObj:= wCurrent;
+            MoveJ Offs(pPick_Cur, 0, 0,  -50),  v500,  z1, tCurrent \WObj:= wCurrent;
         
         !Pega
-            MoveJ Offs(pPick_Cur,0,0,0), v200, fine, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(pPick_Cur,0,0,0), v200, fine, tCurrent \WObj:= wCurrent;
         
         rTON_Vacuum_Gripper;
         
@@ -321,13 +328,13 @@ MODULE Process
         !em um superficie porosa como a do papelao das caixas, pode acabar rasgando
         !a caixa, por isso estou usando mais de um ponto para a saida, para que ela
         !seja suave e nao rasgue a caixa
-            MoveJ Offs(pPick_Cur, 0, 0,  50),  v500,  z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
-            MoveJ Offs(pPick_Cur, 0, 0, 100), v1000,  z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
-            MoveJ Offs(pPick_Cur, 0, 0, 200), v2000, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(pPick_Cur, 0, 0,  50),  v500,  z1, tCurrent \WObj:= wCurrent;
+            MoveJ Offs(pPick_Cur, 0, 0, 100), v1000,  z1, tCurrent \WObj:= wCurrent;
+            MoveJ Offs(pPick_Cur, 0, 0, 200), v2000, z10, tCurrent \WObj:= wCurrent;
         
         !Pounce
         rSet_Segment 3;
-            MoveJ Offs(cStation_Cur.pPounce, 0, 0, 0), vmax, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(cStation_Cur.pPounce, 0, 0, 0), vmax, z10, tCurrent \WObj:= wCurrent;
              
     ENDPROC
     
@@ -337,7 +344,7 @@ MODULE Process
        
         !Pounce
         rSet_Segment 3;
-            MoveJ cStation_Cur.pPounce, v2000, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ cStation_Cur.pPounce, v2000, z10, tCurrent \WObj:= wCurrent;
         
         !Aproximacao
         rSet_Segment 26;
@@ -346,21 +353,21 @@ MODULE Process
                         50 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                        200 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v1500, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       v1500, z10, tCurrent \WObj:= wCurrent;
                        
             MoveJ Offs(pDrop_Cur,
                         20 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
                         20 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                        100 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v1000, z5, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       v1000, z5, tCurrent \WObj:= wCurrent;
                        
             MoveJ Offs(pDrop_Cur,
                         5 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
                         5 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                        50 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v500, z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;           
+                       v500, z1, tCurrent \WObj:= wCurrent;           
         
         !Deposito
             MoveJ Offs(pDrop_Cur,
@@ -368,7 +375,7 @@ MODULE Process
                         0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                         0 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v200, fine, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       v200, fine, tCurrent \WObj:= wCurrent;
         
         rTOF_Vacuum_Gripper;
         
@@ -383,25 +390,25 @@ MODULE Process
                         0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                         5 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v500, z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       v500, z1, tCurrent \WObj:= wCurrent;
                        
             MoveJ Offs(pDrop_Cur,
                         0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
                         0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                        10 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v1000, z5, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       v1000, z5, tCurrent \WObj:= wCurrent;
                        
             MoveJ Offs(pDrop_Cur,
                         0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
                         0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                        20 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v1500, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;   
+                       v1500, z10, tCurrent \WObj:= wCurrent;   
                     
         !Pounce
         rSet_Segment 3;
-            MoveJ cStation_Cur.pPounce, v2000, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ cStation_Cur.pPounce, v2000, z10, tCurrent \WObj:= wCurrent;
         
     ENDPROC
     
@@ -543,19 +550,19 @@ MODULE Process
         LABEL_1:
         
         !Pega esteira
-            MoveJ Offs(pPick_Cur,0,0,0), v200, fine, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(pPick_Cur,0,0,0), v200, fine, tCurrent \WObj:= wCurrent;
        
         LABEL_2:
         
         !Saida da esteira
-            MoveJ Offs(pPick_Cur, 0, 0,  50),  v500,  z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
-            MoveJ Offs(pPick_Cur, 0, 0, 100), v1000,  z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
-            MoveJ Offs(pPick_Cur, 0, 0, 200), v2000, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(pPick_Cur, 0, 0,  50),  v500,  z1, tCurrent \WObj:= wCurrent;
+            MoveJ Offs(pPick_Cur, 0, 0, 100), v1000,  z1, tCurrent \WObj:= wCurrent;
+            MoveJ Offs(pPick_Cur, 0, 0, 200), v2000, z10, tCurrent \WObj:= wCurrent;
         
         LABEL_3:
         
         !Pounce esteira
-            MoveJ Offs(cStation_Cur.pPounce, 0, 0, 0), vmax, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ Offs(cStation_Cur.pPounce, 0, 0, 0), vmax, z10, tCurrent \WObj:= wCurrent;
         
         LABEL_4:
              
@@ -572,7 +579,7 @@ MODULE Process
                         0 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                         0 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v200, fine, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       v200, fine, tCurrent \WObj:= wCurrent;
         
         LABEL_6:
                        
@@ -582,26 +589,26 @@ MODULE Process
                         50 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                        200 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v1500, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       v1500, z10, tCurrent \WObj:= wCurrent;
                        
             MoveJ Offs(pDrop_Cur,
                         20 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
                         20 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                        100 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v1000, z5, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+                       v1000, z5, tCurrent \WObj:= wCurrent;
                        
             MoveJ Offs(pDrop_Cur,
                         5 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.X),
                         5 + (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Y),
                        50 + ( (cPallet_Drop{cPallet_Status{nCur_Pallet}.Pos_Cur}.Z) * (cPallet_Status{nCur_Pallet}.Layer_Cur) )
                        ),
-                       v500, z1, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;           
+                       v500, z1, tCurrent \WObj:= wCurrent;           
         
         LABEL_7:
         
         !Pounce palete
-            MoveJ cStation_Cur.pPounce, v2000, z10, cTool.Tool_Data \WObj:= cStation_Cur.Wobj_Data;
+            MoveJ cStation_Cur.pPounce, v2000, z10, tCurrent \WObj:= wCurrent;
         
         LABEL_8:
         

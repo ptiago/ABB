@@ -25,123 +25,89 @@ MODULE Auxiliar
 !===========================================
 
     !*** Usada para remarcar algum ponto da celula
-    PROC rTouchUp_Points()
+    PROC rTouchUp_Points() !T_ROB1/Auxiliar/rTouchUp_Points
         
         !########## FOLD SABOROSO
         !Pega de uma caixa Saboroso na esteira
         MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wConveyor;
         cPart{1}.pPick_Conv_1 := pReg_1;
+        MoveJ cPart{1}.pPick_Conv_1, v1500, fine, tVacuum \WObj:= wConveyor;
         
         !Pega de duas caixa Saboroso na esteira
         MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wConveyor;
         cPart{1}.pPick_Conv_2 := pReg_1;
+        MoveJ cPart{1}.pPick_Conv_2, v1500, fine, tVacuum \WObj:= wConveyor;
        
         !Deposito na vertical do Saboroso no palete direito
         MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Right;
         cPart{1}.pDrop_Vert_PalRight := pReg_1;
+        MoveJ cPart{1}.pDrop_Vert_PalRight, v1500, fine, tVacuum \WObj:= wPallet_Right;
         
         !Deposito na horizontal do Saboroso no palete direito
         MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Right;
         cPart{1}.pDrop_Hori_PalRight := pReg_1;
+        MoveJ cPart{1}.pDrop_Hori_PalRight, v1500, fine, tVacuum \WObj:= wPallet_Right;
         
         !Deposito na vertical do Saboroso no palete esquerdo
         MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Left;
         cPart{1}.pDrop_Vert_PalLeft := pReg_1;
+        MoveJ cPart{1}.pDrop_Vert_PalLeft, v1500, fine, tVacuum \WObj:= wPallet_Left;
         
         !Deposito na horizontal do Saboroso no palete esquerdo
         MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Left;
         cPart{1}.pDrop_Hori_PalLeft := pReg_1;
-        
+        MoveJ cPart{1}.pDrop_Hori_PalLeft, v1500, fine, tVacuum \WObj:= wPallet_Left;
         !########## ENDFOLD SABOROSO
         
         
         !########## FOLD DELICIOSO
-        !Pega de uma caixa Saboroso na esteira
-        MoveJ cPart{2}.pPick_Conv_1, v1500, fine, cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
-        
-        !Pega de duas caixa Saboroso na esteira
-        MoveJ cPart{2}.pPick_Conv_2, v1500, fine, cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
-        
-        !Deposito na vertical do Saboroso no palete direito
-        MoveJ cPart{2}.pDrop_Vert_PalRight, v1500, fine, cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
-        
-        !Deposito na horizontal do Saboroso no palete direito
-        MoveJ cPart{2}.pDrop_Hori_PalRight, v1500, fine, cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
-        
-        !Deposito na vertical do Saboroso no palete esquerdo
-        MoveJ cPart{2}.pDrop_Vert_PalLeft, v1500, fine, cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
-        
-        !Deposito na horizontal do Saboroso no palete esquerdo
-        MoveJ cPart{2}.pDrop_Hori_PalLeft, v1500, fine, cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
         !########## ENDFOLD DELICIOSO
         
         
         !########## FOLD FANTASTICO
-        !Pega de uma caixa Saboroso na esteira
-        MoveJ cPart{3}.pPick_Conv_1, v1500, fine, cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
-        
-        !Pega de duas caixa Saboroso na esteira
-        MoveJ cPart{3}.pPick_Conv_2, v1500, fine, cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
-        
-        !Deposito na vertical do Saboroso no palete direito
-        MoveJ cPart{3}.pDrop_Vert_PalRight, v1500, fine, cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
-        
-        !Deposito na horizontal do Saboroso no palete direito
-        MoveJ cPart{3}.pDrop_Hori_PalRight, v1500, fine, cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
-        
-        !Deposito na vertical do Saboroso no palete esquerdo
-        MoveJ cPart{3}.pDrop_Vert_PalLeft, v1500, fine, cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
-        
-        !Deposito na horizontal do Saboroso no palete esquerdo
-        MoveJ cPart{3}.pDrop_Hori_PalLeft, v1500, fine, cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
         !########## ENDFOLD FANTASTICO
         
         
         !########## FOLD BOLACHUDO
-        !Pega de uma caixa Saboroso na esteira
-        MoveJ cPart{4}.pPick_Conv_1, v1500, fine, cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
-        
-        !Pega de duas caixa Saboroso na esteira
-        MoveJ cPart{4}.pPick_Conv_2, v1500, fine, cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
-        
-        !Deposito na vertical do Saboroso no palete direito
-        MoveJ cPart{4}.pDrop_Vert_PalRight, v1500, fine, cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
-        
-        !Deposito na horizontal do Saboroso no palete direito
-        MoveJ cPart{4}.pDrop_Hori_PalRight, v1500, fine, cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
-        
-        !Deposito na vertical do Saboroso no palete esquerdo
-        MoveJ cPart{4}.pDrop_Vert_PalLeft, v1500, fine, cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
-        
-        !Deposito na horizontal do Saboroso no palete esquerdo
-        MoveJ cPart{4}.pDrop_Hori_PalLeft, v1500, fine, cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
         !########## ENDFOLD BOLACHUDO
         
         
         !########## FOLD PALETE DIREITO
-        !Home da esteira
+        !Home do palete direito
+        MoveJ pReg_1, v1500, fine, tool0 \WObj:= wobj0;
+        cStation{1}.pHome := pReg_1;
         MoveJ cStation{1}.pHome, v1500, fine, tool0 \WObj:= wobj0;
-        
-        !Pouce da esteira
-        MoveJ cStation{1}.pPounce, v1500, fine,  cTool.Tool_Data \WObj:= cStation{1}.Wobj_Data;
+                
+        !Pouce do palete direito
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Right;
+        cStation{1}.pPounce := pReg_1;
+        MoveJ cStation{1}.pPounce, v1500, fine, tVacuum \WObj:= wPallet_Right;
         !########## ENDFOLD PALETE DIREITO
         
         
         !########## FOLD PALETE ESQUERDO
-        !Home da esteira
+        !Home do palete esquerdo
+        MoveJ pReg_1, v1500, fine, tool0 \WObj:= wobj0;
+        cStation{2}.pHome := pReg_1;
         MoveJ cStation{2}.pHome, v1500, fine, tool0 \WObj:= wobj0;
-        
-        !Pouce da esteira
-        MoveJ cStation{2}.pPounce, v1500, fine,  cTool.Tool_Data \WObj:= cStation{2}.Wobj_Data;
+                
+        !Pouce do palete esquerdo
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wPallet_Left;
+        cStation{2}.pPounce := pReg_1;
+        MoveJ cStation{2}.pPounce, v1500, fine, tVacuum \WObj:= wPallet_Left;
         !########## ENDFOLD PALETE ESQUERDO
         
         
         !########## FOLD ESTEIRA DE ENTRADA
-           !Home da esteira
+        !Home da esteira
+        MoveJ pReg_1, v1500, fine, tool0 \WObj:= wobj0;
+        cStation{3}.pHome := pReg_1;
         MoveJ cStation{3}.pHome, v1500, fine, tool0 \WObj:= wobj0;
-        
+                
         !Pouce da esteira
-        MoveJ cStation{3}.pPounce, v1500, fine,  cTool.Tool_Data \WObj:= cStation{3}.Wobj_Data;
+        MoveJ pReg_1, v1500, fine, tVacuum \WObj:= wConveyor;
+        cStation{3}.pPounce := pReg_1;
+        MoveJ cStation{3}.pPounce, v1500, fine, tVacuum \WObj:= wConveyor;
         !########## ENDFOLD ESTEIRA DE ENTRADA
         
         !Home do robô
@@ -149,7 +115,7 @@ MODULE Auxiliar
         
         !Teste origem do work object
         !*Mudar o ponto
-        MoveJ pPallet_Right_Point_X1, v1500, fine, tool0\WObj:= wobj0;
+        MoveJ pPallet_Left_X1, v1500, fine, tool0\WObj:= wobj0;
         
     ENDPROC
     

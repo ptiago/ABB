@@ -76,7 +76,7 @@ MODULE IHM
         rReset_Cell;
         
         TPErase;
-        TPWrite "CELULA RESETA COM SUCESSO";
+        TPWrite "CELULA RESETADA COM SUCESSO";
         WaitTime 3;
         
         LABEL_99:
@@ -194,10 +194,14 @@ MODULE IHM
     !*** Pergunta para o usuario se deseja continuar para a proxima etapa do processo
     PROC rRequest_Continue()
         
+        IF OpMode() = OP_AUTO GOTO LABEL_99;
+        
         TPErase;
         TPReadFK nReg_1, "Deseja seguir para proxima etapa","SIM",stEmpty,stEmpty,stEmpty,"NAO";
         
         IF (nReg_1 = 5) Stop;
+        
+        LABEL_99:
         
     ENDPROC
     

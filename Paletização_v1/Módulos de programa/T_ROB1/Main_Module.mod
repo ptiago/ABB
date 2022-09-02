@@ -23,7 +23,7 @@ MODULE Main_Module
 ! o objetivo da celula
 !===========================================
 
-    PROC main()
+    PROC main() !T_ROB1/Main_Module/main
         
         !Reseta celula?
         rMsg_Reset_Cell;
@@ -31,8 +31,18 @@ MODULE Main_Module
         !Escolhe produto
         rMsg_Set_Part;
         
-        !Verifica se houve requisicao para encerrar producao
-        WHILE ((DI_004_END_CICLE <> 1) AND (nDP <> 1)) DO
+        !Modo de operacao em dry run
+        IF (DI_021_DRY_RUN = 1) THEN
+            bDry_Run := TRUE;
+        ELSE
+            bDry_Run := FALSE;
+        ENDIF
+        
+        !PRODUCAO
+        WHILE TRUE DO
+            
+            !Verifica se houve requisicao para encerrar producao
+            IF ((DI_004_END_CICLE = 1) AND (nDP = 1)) GOTO LABEL_99;
             
             rRequest_Continue;
             
@@ -45,12 +55,14 @@ MODULE Main_Module
             
         ENDWHILE
         
+        LABEL_99:
+        
         rMsg_End_Cicle;
      
     ENDPROC
     
     !*** Pick Saboroso in conveyor in with vacuum
-    PROC r1131()
+    PROC r1131() !T_ROB1/Main_Module/r1131
         
         !Setup geral
         rSet_Process 1;
@@ -60,6 +72,9 @@ MODULE Main_Module
         
         !Permissivel
         WaitUntil fPer_1131() \Visualize \Header:="Permissivel NAO liberado" \MsgArray:=["checar condicoes do permissvel 1131"] \Icon:=iconInfo;
+        
+        !Atribui layout
+        CallByVar "rSet_Layout_", nCurrent_Layout{cPallet_Status{nCur_Pallet}.Layer_Cur};
         
         !Atribui pontos do processo
         rSet_Pick_Cur;
