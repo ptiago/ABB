@@ -1,5 +1,19 @@
 # ABB
 
+- Codes in Rapid language
+- Software developed based on real cases
+- Space for learning
+
+This repository is dedicated to the programs I developed for training in the Rapid language used in ABB industrial robots.
+In addition to testing the use of new functions, instructions, and algorithms, the goal is to create a portfolio, so that other people, industrial robot programmers or not, can exchange ideas and discuss the code in order to always improve our knowledge.
+
+I'm always uploading the backup of the entire cell, so anyone who has RobotStudio 2022.2 software onwards will be able to open the whole project.
+You can download RoboStudio for FREE and test the code, if possible contribute your idea :)
+
+[FREE RobotStudio download](https://new.abb.com/products/robotics/robotstudio/downloads)
+
+-------------------------------------------------------
+
 - Códigos em linguagem Rapid
 - Software desenvolvido com base em casos reais
 - Espaço para aprendizado
